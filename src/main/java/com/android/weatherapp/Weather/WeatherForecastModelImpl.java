@@ -1,4 +1,7 @@
-package com.android.weatherapp.Weather;
+package com.android.weatherapp.weather;
+
+import com.android.weatherapp.callbacks.Updatable;
+import com.android.weatherapp.webservice.FetchWeatherTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,24 +11,24 @@ import java.util.List;
  * Created by Mohit Goel on 05-10-2017.
  */
 
-public class WeatherForecastModelImpl implements WeatherForecastModel{
+public class WeatherForecastModelImpl implements WeatherForecastModel,Updatable{
+
+    private List<String> list=new ArrayList<>();
 
     @Override
     public void findItem(OnFinishedListener listener) {
-        listener.onFinished(createArrayList());
+        FetchWeatherTask weatherTask=new FetchWeatherTask();
+        weatherTask.updatableObject=this;
+        weatherTask.execute("560034");
+        listener.onFinished(list);
     }
 
-    private List<String> createArrayList()
-    {
-        String[] fakeData = {
-                 "Today - Sunny-88/63",
-                "Tommorow - Foggy-70/46",
-                "Weds - Cloudy-72/63",
-                "Thurs - Rainy-64/51",
-                 "Fri - Foggy-70/46",
-                "Sat - Sunny-76/68"
-                };
-        return Arrays.asList(fakeData);
+    @Override
+    public void onWeatherUpdate(String [] weatherData) {
+        list.clear();
+        for(String s:weatherData)
+        {
+            list.add(s);
+        }
     }
-
 }

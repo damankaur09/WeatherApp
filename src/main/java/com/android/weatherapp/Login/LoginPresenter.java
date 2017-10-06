@@ -1,4 +1,4 @@
-package com.android.weatherapp.Login;
+package com.android.weatherapp.login;
 
 /**
  * Created by Mohit Goel on 05-10-2017.

@@ -1,4 +1,4 @@
-package com.android.weatherapp.Login;
+package com.android.weatherapp.login;
 
 import android.os.Handler;
 import android.text.TextUtils;

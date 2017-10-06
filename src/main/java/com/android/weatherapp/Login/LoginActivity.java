@@ -1,4 +1,4 @@
-package com.android.weatherapp.Login;
+package com.android.weatherapp.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.android.weatherapp.R;
-import com.android.weatherapp.Weather.WeatherForecastActivity;
+import com.android.weatherapp.weather.WeatherForecastActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView,View.OnClickListener
 {

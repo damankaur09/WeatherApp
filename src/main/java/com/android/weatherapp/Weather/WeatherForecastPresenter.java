@@ -1,4 +1,4 @@
-package com.android.weatherapp.Weather;
+package com.android.weatherapp.weather;
 
 /**
  * Created by Mohit Goel on 05-10-2017.

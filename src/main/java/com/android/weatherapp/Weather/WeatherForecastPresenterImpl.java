@@ -1,4 +1,4 @@
-package com.android.weatherapp.Weather;
+package com.android.weatherapp.weather;
 
 import java.util.List;
 

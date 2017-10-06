@@ -1,4 +1,4 @@
-package com.android.weatherapp.Weather;
+package com.android.weatherapp.weather;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,7 +50,7 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_refresh:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
