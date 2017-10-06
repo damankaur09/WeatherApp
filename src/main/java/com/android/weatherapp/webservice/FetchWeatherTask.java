@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.android.weatherapp.beans.Weather;
 import com.android.weatherapp.callbacks.Updatable;
 
 import org.json.JSONArray;
@@ -25,7 +26,7 @@ import java.util.Arrays;
  * Created by Mohit Goel on 05-10-2017.
  */
 
-public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
+public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
 
     private final String LOG_TAG=FetchWeatherTask.class.getSimpleName();
     public Updatable updatableObject;
@@ -48,7 +49,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
     }
 
     //parsing of data
-    private String[] getWeatherDataFromJson(String forecastJsonStr,int numDays) throws JSONException {
+    private Weather[] getWeatherDataFromJson(String forecastJsonStr,int numDays) throws JSONException {
 
         // These are the names of JSON objects that need to be extracted.
         final String OWN_LIST="list";
@@ -56,9 +57,8 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
         final String OWN_TEMPERATURE="temp";
         final String OWN_MAX="max";
         final String OWN_MIN="min";
-        final String OWN_CITY="city";
-        final String OWN_NAME="name";
         final String OWN_DESCRIPTION="main";
+        final String OWN_CURRENT_TEMPERATURE="day";
 
         JSONObject forecastJson=new JSONObject(forecastJsonStr);
         JSONArray weatherArray=forecastJson.getJSONArray(OWN_LIST);
@@ -71,7 +71,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
 
         dayTime=new Time();
 
-        String [] resultStrs=new String[numDays];
+        Weather [] resultWeahter=new Weather[numDays];
 
         for(int i=0;i<weatherArray.length();i++)
         {
@@ -92,17 +92,25 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
             JSONObject temperatureObject = dayForecast.getJSONObject(OWN_TEMPERATURE);
             double high = temperatureObject.getDouble(OWN_MAX);
             double low = temperatureObject.getDouble(OWN_MIN);
+            int currentTemperature=temperatureObject.getInt(OWN_CURRENT_TEMPERATURE);
 
             hhighAndLow=formatHighLows(high,low);
-            resultStrs[i]=day+"-"+description+"-"+hhighAndLow;
+
+            Weather weather=new Weather();
+            weather.setCurrentTemperature(Integer.toString(currentTemperature));
+            weather.setDay(day.substring(0,3));
+            weather.setMinMaxTemperature(hhighAndLow);
+            weather.setWeather(description);
+
+            resultWeahter[i]=weather;
             
         }
 
-        return resultStrs;
+        return resultWeahter;
     }
 
     @Override
-    protected String[] doInBackground(String... params)
+    protected Weather[] doInBackground(String... params)
     {
         if(params.length==0)
         {
@@ -192,7 +200,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
     }
 
     @Override
-    protected void onPostExecute(String[] result) {
+    protected void onPostExecute(Weather[] result) {
        updatableObject.onWeatherUpdate(result);
     }
 }

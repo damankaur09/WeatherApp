@@ -1,5 +1,6 @@
 package com.android.weatherapp.weather;
 
+import com.android.weatherapp.beans.Weather;
 import com.android.weatherapp.callbacks.Updatable;
 import com.android.weatherapp.webservice.FetchWeatherTask;
 
@@ -13,22 +14,20 @@ import java.util.List;
 
 public class WeatherForecastModelImpl implements WeatherForecastModel,Updatable{
 
-    private List<String> list=new ArrayList<>();
-
+    private List<Weather> list=new ArrayList<>();
+    private OnFinishedListener listener;
     @Override
     public void findItem(OnFinishedListener listener) {
         FetchWeatherTask weatherTask=new FetchWeatherTask();
         weatherTask.updatableObject=this;
-        weatherTask.execute("560034");
-        listener.onFinished(list);
+        weatherTask.execute("chandigarh");
+        this.listener=listener;
     }
 
     @Override
-    public void onWeatherUpdate(String [] weatherData) {
+    public void onWeatherUpdate(Weather[] weatherData) {
         list.clear();
-        for(String s:weatherData)
-        {
-            list.add(s);
-        }
+        list.addAll(Arrays.asList(weatherData));
+        listener.onFinished(list);
     }
 }

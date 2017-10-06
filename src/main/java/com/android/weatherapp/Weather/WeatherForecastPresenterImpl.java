@@ -1,5 +1,7 @@
 package com.android.weatherapp.weather;
 
+import com.android.weatherapp.beans.Weather;
+
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public class WeatherForecastPresenterImpl implements WeatherForecastPresenter,We
     }
 
     @Override
-    public void onFinished(List<String> items) {
+    public void onFinished(List<Weather> items) {
         if(weatherForecastView!=null)
         {
             weatherForecastView.setItems(items);

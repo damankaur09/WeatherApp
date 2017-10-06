@@ -1,5 +1,7 @@
 package com.android.weatherapp.weather;
 
+import com.android.weatherapp.beans.Weather;
+
 import java.util.List;
 
 /**
@@ -12,7 +14,7 @@ public interface WeatherForecastView
 
     void hideProgress();
 
-    void setItems(List<String> items);
+    void setItems(List<Weather> items);
 
     void showMessage(String Message);
 }

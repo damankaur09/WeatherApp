@@ -8,4 +8,5 @@
     <string name="title_activity_main">MVP Example</string>
     <string name="username_error">Username cannot be empty</string>
     <string name="password_error">Password cannot be empty</string>
+    <string name="city_name">Chandigarh,IXC</string>
 </resources>
