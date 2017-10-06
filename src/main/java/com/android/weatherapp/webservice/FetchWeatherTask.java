@@ -22,9 +22,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-/**
- * Created by Mohit Goel on 05-10-2017.
- */
+
 
 public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
 

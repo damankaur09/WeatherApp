@@ -1,8 +1,6 @@
 package com.android.weatherapp.login;
 
-/**
- * Created by Mohit Goel on 05-10-2017.
- */
+
 
 public class LoginPresenterImpl implements LoginPresenter,LoginModel.OnLoginFinishedListener
 {

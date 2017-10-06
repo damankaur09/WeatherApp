@@ -1,8 +1,6 @@
 package com.android.weatherapp.beans;
 
-/**
- * Created by Mohit Goel on 06-10-2017.
- */
+
 
 public class Weather
 {

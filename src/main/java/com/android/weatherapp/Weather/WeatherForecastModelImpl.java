@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Mohit Goel on 05-10-2017.
- */
+
 
 public class WeatherForecastModelImpl implements WeatherForecastModel,Updatable{
 

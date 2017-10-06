@@ -3,9 +3,6 @@ package com.android.weatherapp.login;
 import android.os.Handler;
 import android.text.TextUtils;
 
-/**
- * Created by Mohit Goel on 05-10-2017.
- */
 
 public class LoginModelImpl implements LoginModel
 {
