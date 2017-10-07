@@ -5,11 +5,9 @@ import com.android.weatherapp.beans.Weather;
 import java.util.List;
 
 
-
 public interface WeatherForecastModel {
 
-    interface OnFinishedListener
-    {
+    interface OnFinishedListener {
         void onFinished(List<Weather> items);
     }
 

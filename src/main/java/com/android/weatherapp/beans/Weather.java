@@ -1,9 +1,7 @@
 package com.android.weatherapp.beans;
 
 
-
-public class Weather
-{
+public class Weather {
     private String currentTemperature;
     private String minMaxTemperature;
     private String day;

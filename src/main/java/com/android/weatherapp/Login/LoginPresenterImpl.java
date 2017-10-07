@@ -1,9 +1,7 @@
 package com.android.weatherapp.login;
 
 
-
-public class LoginPresenterImpl implements LoginPresenter,LoginModel.OnLoginFinishedListener
-{
+public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginFinishedListener {
     private LoginView loginView;
     private LoginModel loginModel;
 
@@ -14,22 +12,20 @@ public class LoginPresenterImpl implements LoginPresenter,LoginModel.OnLoginFini
 
     @Override
     public void validateCredentials(String username, String password) {
-        if(loginView!=null)
-        {
+        if (loginView != null) {
             loginView.showProgress();
         }
-        loginModel.login(username,password,this);
+        loginModel.login(username, password, this);
     }
 
     @Override
     public void onDestroy() {
-        loginView=null;
+        loginView = null;
     }
 
     @Override
     public void onUsernameError() {
-        if(loginView!=null)
-        {
+        if (loginView != null) {
             loginView.setUsernameError();
             loginView.hideProgress();
         }
@@ -38,17 +34,17 @@ public class LoginPresenterImpl implements LoginPresenter,LoginModel.OnLoginFini
     @Override
     public void onPasswordError() {
 
-        if (loginView!=null)
-        {
+        if (loginView != null) {
             loginView.setPasswordError();
             loginView.hideProgress();
         }
     }
 
+
+
     @Override
     public void onSuccess() {
-        if(loginView!=null)
-        {
+        if (loginView != null) {
             loginView.navigateToHome();
         }
     }

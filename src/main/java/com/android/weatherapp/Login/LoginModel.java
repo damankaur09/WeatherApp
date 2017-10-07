@@ -1,11 +1,8 @@
 package com.android.weatherapp.login;
 
 
-
-public interface LoginModel
-{
-    interface OnLoginFinishedListener
-    {
+public interface LoginModel {
+    interface OnLoginFinishedListener {
         void onUsernameError();
 
         void onPasswordError();
@@ -13,5 +10,5 @@ public interface LoginModel
         void onSuccess();
     }
 
-    void login(String username,String password,OnLoginFinishedListener listener);
+    void login(String username, String password, OnLoginFinishedListener listener);
 }

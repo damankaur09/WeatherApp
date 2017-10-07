@@ -5,7 +5,7 @@ import com.android.weatherapp.beans.Weather;
 import java.util.List;
 
 
-public interface Updatable
+public interface IUpdatable
 {
     void onWeatherUpdate(Weather[]  weatherData);
 }

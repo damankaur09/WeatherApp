@@ -19,32 +19,33 @@ import com.android.weatherapp.beans.Weather;
 
 import java.util.List;
 
-public class WeatherForecastActivity extends AppCompatActivity implements WeatherForecastView,AdapterView.OnItemClickListener{
+public class WeatherForecastActivity extends AppCompatActivity implements WeatherForecastView, AdapterView.OnItemClickListener {
 
     private ProgressBar progressBar;
-    private TextView tvCurrentTemp,tvTodayWeather,tvTodayHighLowTemp,tvCityName;
-    private TextView tvDay2Name,tvDay3Name,tvDay4Name;
-    private ImageView ivTodayWeatherIcon,ivDay2WeatherIcon,ivDay3WeatherIcon,ivDay4WeatherIcon;
+    private TextView tvCurrentTemp, tvTodayWeather, tvTodayHighLowTemp, tvCityName;
+    private TextView tvDay2Name, tvDay3Name, tvDay4Name;
+    private ImageView ivTodayWeatherIcon, ivDay2WeatherIcon, ivDay3WeatherIcon, ivDay4WeatherIcon;
     private WeatherForecastPresenter weatherForecastPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_forecast);
 
-        progressBar=(ProgressBar)findViewById(R.id.progress);
-        tvTodayWeather=(TextView)findViewById(R.id.today_weather_textview);
-        tvCurrentTemp=(TextView)findViewById(R.id.current_temp_textView);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
+        tvTodayWeather = (TextView) findViewById(R.id.today_weather_textview);
+        tvCurrentTemp = (TextView) findViewById(R.id.current_temp_textView);
         tvTodayHighLowTemp = (TextView) findViewById(R.id.today_high_low_temp_textview);
         tvDay2Name = (TextView) findViewById(R.id.day2_weather_textview);
         tvDay3Name = (TextView) findViewById(R.id.day3_weather_textview);
         tvDay4Name = (TextView) findViewById(R.id.day4_weather_textview);
-        tvCityName=(TextView)findViewById(R.id.city_name_textview);
+        tvCityName = (TextView) findViewById(R.id.city_name_textview);
 
         ivTodayWeatherIcon = (ImageView) findViewById(R.id.today_weather_icon_imageview);
         ivDay2WeatherIcon = (ImageView) findViewById(R.id.day2_weather_icon_imageview);
         ivDay3WeatherIcon = (ImageView) findViewById(R.id.day3_weather_icon_imageview);
         ivDay4WeatherIcon = (ImageView) findViewById(R.id.day4_weather_icon_imageview);
-        weatherForecastPresenter=new WeatherForecastPresenterImpl(this);
+        weatherForecastPresenter = new WeatherForecastPresenterImpl(this);
     }
 
     @Override
@@ -59,12 +60,14 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
         super.onDestroy();
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.weather, menu);
         return true;
     }
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 onResume();
@@ -88,18 +91,16 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
 
     @Override
     public void setItems(List<Weather> items) {
-        Log.d("ListView",items.toString());
-        for(int i=0;i<items.size();i++)
-        {
-            Weather weather=items.get(i);
-            switch (i)
-            {
+        Log.d("ListView", items.toString());
+        for (int i = 0; i < items.size(); i++) {
+            Weather weather = items.get(i);
+            switch (i) {
                 case 0:
                     tvTodayWeather.setText(weather.getWeather());
-                    tvCurrentTemp.setText(weather.getCurrentTemperature()+ (char) 0x00B0);
+                    tvCurrentTemp.setText(weather.getCurrentTemperature() + (char) 0x00B0);
                     tvTodayHighLowTemp.setText(weather.getMinMaxTemperature());
                     ivTodayWeatherIcon.setImageResource(getWeatherIcon(weather.getWeather()));
-                    tvCityName.setText(weather.getCityName());
+//                    tvCityName.setText(weather.getCityName());
                     break;
                 case 1:
                     tvDay2Name.setText(weather.getDay());
@@ -129,10 +130,8 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
         weatherForecastPresenter.onItemClicked(position);
     }
 
-    private int getWeatherIcon(String weather)
-    {
-        switch(weather.toUpperCase())
-        {
+    private int getWeatherIcon(String weather) {
+        switch (weather.toUpperCase()) {
             case "CLEAR":
                 return R.drawable.sun;
             case "RAIN":

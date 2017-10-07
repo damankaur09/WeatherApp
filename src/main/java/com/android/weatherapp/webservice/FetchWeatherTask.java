@@ -6,7 +6,7 @@ import android.text.format.Time;
 import android.util.Log;
 
 import com.android.weatherapp.beans.Weather;
-import com.android.weatherapp.callbacks.Updatable;
+import com.android.weatherapp.callbacks.IUpdatable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,169 +20,157 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 
 
+public class FetchWeatherTask extends AsyncTask<String, Void, Weather[]> {
 
-public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
-
-    private final String LOG_TAG=FetchWeatherTask.class.getSimpleName();
-    public Updatable updatableObject;
+    private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+    public IUpdatable updatableObject;
 
     //helper method to format date and time
-    private String getReadableDateString(long time)
-    {
-        SimpleDateFormat dateFormat=new SimpleDateFormat("EEE MMM dd");
+    private String getReadableDateString(long time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd");
         return dateFormat.format(time);
     }
 
     //helper method to format high and low of temperature
-    private String formatHighLows(double high,double low)
-    {
-        long roundedHigh=Math.round(high);
-        long roundedLow=Math.round(low);
+    private String formatHighLows(double high, double low) {
+        long roundedHigh = Math.round(high);
+        long roundedLow = Math.round(low);
 
-        String highLowStr= "H "+roundedHigh+"  "+"L "+roundedLow;
+        String highLowStr = "H " + roundedHigh + "  " + "L " + roundedLow;
         return highLowStr;
     }
 
     //parsing of data
-    private Weather[] getWeatherDataFromJson(String forecastJsonStr,int numDays) throws JSONException {
+    private Weather[] getWeatherDataFromJson(String forecastJsonStr, int numDays) throws JSONException {
 
         // These are the names of JSON objects that need to be extracted.
-        final String OWN_LIST="list";
-        final String OWN_WEATHER="weather";
-        final String OWN_TEMPERATURE="temp";
-        final String OWN_MAX="max";
-        final String OWN_MIN="min";
-        final String OWN_DESCRIPTION="main";
-        final String OWN_CURRENT_TEMPERATURE="day";
-        final String OWN_CITY="city";
-        final String OWN_CITY_NAME="name";
+        final String OWN_LIST = "list";
+        final String OWN_WEATHER = "weather";
+        final String OWN_TEMPERATURE = "temp";
+        final String OWN_MAX = "max";
+        final String OWN_MIN = "min";
+        final String OWN_DESCRIPTION = "main";
+        final String OWN_CURRENT_TEMPERATURE = "day";
+        final String OWN_CITY = "city";
+        final String OWN_CITY_NAME = "name";
 
-        JSONObject forecastJson=new JSONObject(forecastJsonStr);
-        JSONArray weatherArray=forecastJson.getJSONArray(OWN_LIST);
-        JSONObject cityobject=forecastJson.getJSONObject(OWN_CITY);
+        JSONObject forecastJson = new JSONObject(forecastJsonStr);
+        JSONArray weatherArray = forecastJson.getJSONArray(OWN_LIST);
+        JSONObject cityobject = forecastJson.getJSONObject(OWN_CITY);
 
-        Time dayTime=new Time();
+        Time dayTime = new Time();
         dayTime.setToNow();
 
         // we start at the day returned by local time. Otherwise this is a mess.
-        int julianStartDay=Time.getJulianDay(System.currentTimeMillis(),dayTime.gmtoff);
+        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
 
-        dayTime=new Time();
+        dayTime = new Time();
 
-        Weather [] resultWeahter=new Weather[numDays];
+        Weather[] resultWeahter = new Weather[numDays];
 
-        for(int i=0;i<weatherArray.length();i++)
-        {
+        for (int i = 0; i < weatherArray.length(); i++) {
             String day;
             String description;
             String hhighAndLow;
             String cityName;
 
             // Get the JSON object representing the day
-            JSONObject dayForecast=weatherArray.getJSONObject(i);
+            JSONObject dayForecast = weatherArray.getJSONObject(i);
 
             long dateTime;
             dateTime = dayTime.setJulianDay(julianStartDay + i);
             day = getReadableDateString(dateTime);
 
-            cityName=cityobject.getString(OWN_CITY_NAME);
+            cityName = cityobject.getString(OWN_CITY_NAME);
             JSONObject weatherObject = dayForecast.getJSONArray(OWN_WEATHER).getJSONObject(0);
             description = weatherObject.getString(OWN_DESCRIPTION);
 
             JSONObject temperatureObject = dayForecast.getJSONObject(OWN_TEMPERATURE);
             double high = temperatureObject.getDouble(OWN_MAX);
             double low = temperatureObject.getDouble(OWN_MIN);
-            int currentTemperature=temperatureObject.getInt(OWN_CURRENT_TEMPERATURE);
+            int currentTemperature = temperatureObject.getInt(OWN_CURRENT_TEMPERATURE);
 
-            hhighAndLow=formatHighLows(high,low);
+            hhighAndLow = formatHighLows(high, low);
 
-            Weather weather=new Weather();
+            Weather weather = new Weather();
             weather.setCurrentTemperature(Integer.toString(currentTemperature));
-            weather.setDay(day.substring(0,3));
+            weather.setDay(day.substring(0, 3));
             weather.setMinMaxTemperature(hhighAndLow);
             weather.setWeather(description);
             weather.setCityName(cityName);
 
-            resultWeahter[i]=weather;
-            
+            resultWeahter[i] = weather;
+
         }
 
         return resultWeahter;
     }
 
     @Override
-    protected Weather[] doInBackground(String... params)
-    {
-        if(params.length==0)
-        {
+    protected Weather[] doInBackground(String... params) {
+        if (params.length == 0) {
             return null;
         }
 
-        HttpURLConnection urlConnection=null;
-        BufferedReader reader=null;
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
 
-        String forecastJsonStr=null;
+        String forecastJsonStr = null;
 
-        String format="json";
-        String units="metric";
-        String numDays="7";
-        String appId="273d09eec63fef96db00f20143533b4d";
+        String format = "json";
+        String units = "metric";
+        String numDays = "7";
+        String appId = "273d09eec63fef96db00f20143533b4d";
 
-        final String FORECAST_BASE_URL ="http://api.openweathermap.org/data/2.5/forecast/daily?";
+        final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
         final String QUERY_PARAM = "q";
         final String FORMAT_PARAM = "mode";
         final String UNITS_PARAM = "units";
         final String DAYS_PARAM = "cnt";
         final String APP_ID = "appid";
 
-        Uri builtUri=Uri.parse(FORECAST_BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM,params[0])
-                .appendQueryParameter(UNITS_PARAM,units)
-                .appendQueryParameter(FORMAT_PARAM,format)
-                .appendQueryParameter(DAYS_PARAM,numDays)
-                .appendQueryParameter(APP_ID,appId)
+        Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, params[0])
+                .appendQueryParameter(UNITS_PARAM, units)
+                .appendQueryParameter(FORMAT_PARAM, format)
+                .appendQueryParameter(DAYS_PARAM, numDays)
+                .appendQueryParameter(APP_ID, appId)
                 .build();
 
         try {
 
-            URL url=new URL(builtUri.toString());
+            URL url = new URL(builtUri.toString());
             // Create a request to OpenWeatherMap, and open the connection
-            urlConnection=(HttpURLConnection)url.openConnection();
+            urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
             // Read the input stream into String
-            InputStream inputStream=urlConnection.getInputStream();
-            StringBuffer buffer=new StringBuffer();
+            InputStream inputStream = urlConnection.getInputStream();
+            StringBuffer buffer = new StringBuffer();
 
-            if(inputStream==null)
-            {
+            if (inputStream == null) {
                 return null;
             }
 
-            reader=new BufferedReader(new InputStreamReader(inputStream));
+            reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
 
-            while((line=reader.readLine())!=null)
-            {
-                buffer.append(line+ "\n");
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line + "\n");
             }
-            if(buffer.length()==0)
-            {
+            if (buffer.length() == 0) {
                 return null;
             }
-            forecastJsonStr=buffer.toString();
+            forecastJsonStr = buffer.toString();
 
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -196,7 +184,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
         }
 
         try {
-            return getWeatherDataFromJson(forecastJsonStr,Integer.parseInt(numDays));
+            return getWeatherDataFromJson(forecastJsonStr, Integer.parseInt(numDays));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -205,6 +193,6 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
 
     @Override
     protected void onPostExecute(Weather[] result) {
-       updatableObject.onWeatherUpdate(result);
+        updatableObject.onWeatherUpdate(result);
     }
 }

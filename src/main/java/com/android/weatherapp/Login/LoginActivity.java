@@ -10,25 +10,25 @@ import android.widget.ProgressBar;
 import com.android.weatherapp.R;
 import com.android.weatherapp.weather.WeatherForecastActivity;
 
-public class LoginActivity extends AppCompatActivity implements LoginView,View.OnClickListener
-{
+public class LoginActivity extends AppCompatActivity implements LoginView, View.OnClickListener {
 
     private ProgressBar progressBar;
     private EditText username;
     private EditText password;
     private LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        progressBar=(ProgressBar)findViewById(R.id.progress);
-        username=(EditText)findViewById(R.id.username);
-        password=(EditText)findViewById(R.id.password);
+        progressBar = (ProgressBar) findViewById(R.id.login_progress);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
 
         findViewById(R.id.button).setOnClickListener(this);
 
-        presenter=new LoginPresenterImpl(this);
+        presenter = new LoginPresenterImpl(this);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
     @Override
     public void hideProgress() {
 
-        progressBar.setProgress(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView,View.O
 
     @Override
     public void onClick(View view) {
-        presenter.validateCredentials(username.getText().toString(),password.getText().toString());
+       presenter.validateCredentials(username.getText().toString(), password.getText().toString());
+       
     }
 }

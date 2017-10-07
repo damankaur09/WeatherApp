@@ -1,9 +1,7 @@
 package com.android.weatherapp.login;
 
 
-
-public interface LoginView
-{
+public interface LoginView {
     void showProgress();
 
     void hideProgress();

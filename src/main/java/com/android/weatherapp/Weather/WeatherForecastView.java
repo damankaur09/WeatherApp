@@ -5,9 +5,7 @@ import com.android.weatherapp.beans.Weather;
 import java.util.List;
 
 
-
-public interface WeatherForecastView
-{
+public interface WeatherForecastView {
     void showProgress();
 
     void hideProgress();
