@@ -86,7 +86,6 @@
                     android:orientation="vertical">
 
                     <TextView
-
                         android:id="@+id/current_temp_textView"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -104,9 +103,9 @@
 
                         <TextView
                             android:id="@+id/today_high_low_temp_textview"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+
                             android:gravity="center"
                             android:textColor="#FFFFFF"
                             />

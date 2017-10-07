@@ -42,7 +42,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
         long roundedHigh=Math.round(high);
         long roundedLow=Math.round(low);
 
-        String highLowStr= "H"+roundedHigh+" "+"L"+roundedLow;
+        String highLowStr= "H "+roundedHigh+"  "+"L "+roundedLow;
         return highLowStr;
     }
 
