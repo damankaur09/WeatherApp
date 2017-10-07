@@ -8,6 +8,15 @@ public class Weather
     private String minMaxTemperature;
     private String day;
     private String weather;
+    private String cityName;
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 
     public String getCurrentTemperature() {
         return currentTemperature;

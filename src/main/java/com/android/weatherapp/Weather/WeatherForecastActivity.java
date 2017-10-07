@@ -22,7 +22,7 @@ import java.util.List;
 public class WeatherForecastActivity extends AppCompatActivity implements WeatherForecastView,AdapterView.OnItemClickListener{
 
     private ProgressBar progressBar;
-    private TextView tvCurrentTemp,tvTodayWeather,tvTodayHighLowTemp;
+    private TextView tvCurrentTemp,tvTodayWeather,tvTodayHighLowTemp,tvCityName;
     private TextView tvDay2Name,tvDay3Name,tvDay4Name;
     private ImageView ivTodayWeatherIcon,ivDay2WeatherIcon,ivDay3WeatherIcon,ivDay4WeatherIcon;
     private WeatherForecastPresenter weatherForecastPresenter;
@@ -38,6 +38,7 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
         tvDay2Name = (TextView) findViewById(R.id.day2_weather_textview);
         tvDay3Name = (TextView) findViewById(R.id.day3_weather_textview);
         tvDay4Name = (TextView) findViewById(R.id.day4_weather_textview);
+        tvCityName=(TextView)findViewById(R.id.city_name_textview);
 
         ivTodayWeatherIcon = (ImageView) findViewById(R.id.today_weather_icon_imageview);
         ivDay2WeatherIcon = (ImageView) findViewById(R.id.day2_weather_icon_imageview);
@@ -98,6 +99,7 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
                     tvCurrentTemp.setText(weather.getCurrentTemperature()+ (char) 0x00B0);
                     tvTodayHighLowTemp.setText(weather.getMinMaxTemperature());
                     ivTodayWeatherIcon.setImageResource(getWeatherIcon(weather.getWeather()));
+                    tvCityName.setText(weather.getCityName());
                     break;
                 case 1:
                     tvDay2Name.setText(weather.getDay());

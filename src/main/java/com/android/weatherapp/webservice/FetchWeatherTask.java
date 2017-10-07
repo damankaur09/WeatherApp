@@ -57,9 +57,12 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
         final String OWN_MIN="min";
         final String OWN_DESCRIPTION="main";
         final String OWN_CURRENT_TEMPERATURE="day";
+        final String OWN_CITY="city";
+        final String OWN_CITY_NAME="name";
 
         JSONObject forecastJson=new JSONObject(forecastJsonStr);
         JSONArray weatherArray=forecastJson.getJSONArray(OWN_LIST);
+        JSONObject cityobject=forecastJson.getJSONObject(OWN_CITY);
 
         Time dayTime=new Time();
         dayTime.setToNow();
@@ -76,6 +79,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
             String day;
             String description;
             String hhighAndLow;
+            String cityName;
 
             // Get the JSON object representing the day
             JSONObject dayForecast=weatherArray.getJSONObject(i);
@@ -84,6 +88,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
             dateTime = dayTime.setJulianDay(julianStartDay + i);
             day = getReadableDateString(dateTime);
 
+            cityName=cityobject.getString(OWN_CITY_NAME);
             JSONObject weatherObject = dayForecast.getJSONArray(OWN_WEATHER).getJSONObject(0);
             description = weatherObject.getString(OWN_DESCRIPTION);
 
@@ -99,6 +104,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,Weather[]> {
             weather.setDay(day.substring(0,3));
             weather.setMinMaxTemperature(hhighAndLow);
             weather.setWeather(description);
+            weather.setCityName(cityName);
 
             resultWeahter[i]=weather;
             
