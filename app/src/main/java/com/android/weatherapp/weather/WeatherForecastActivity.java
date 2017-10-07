@@ -100,7 +100,7 @@ public class WeatherForecastActivity extends AppCompatActivity implements Weathe
                     tvCurrentTemp.setText(weather.getCurrentTemperature() + (char) 0x00B0);
                     tvTodayHighLowTemp.setText(weather.getMinMaxTemperature());
                     ivTodayWeatherIcon.setImageResource(getWeatherIcon(weather.getWeather()));
-//                    tvCityName.setText(weather.getCityName());
+                    tvCityName.setText(weather.getCityName());
                     break;
                 case 1:
                     tvDay2Name.setText(weather.getDay());
